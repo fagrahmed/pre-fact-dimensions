@@ -1,0 +1,1 @@
+{"_invocation_id": "e24af71a-545b-4333-b0f2-5d130259bfc5", "linked": {"0": {"name": "source.pre_fact_dimensions.axis_core.walletprofiles", "type": "source", "succ": [2]}, "1": {"name": "source.pre_fact_dimensions.axis_kyc.partner", "type": "source", "succ": [2]}, "2": {"name": "model.pre_fact_dimensions.profiles_dimension", "type": "model"}}}

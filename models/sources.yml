@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+
+  - name: axis_core
+    database: dbt
+    tables: 
+      - name: walletprofiles
+
+  - name: axis_kyc
+    database: dbt
+    tables:
+      - name: partner
