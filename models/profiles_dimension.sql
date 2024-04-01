@@ -3,7 +3,7 @@
 {{config(materialized='table') }}
 
 SELECT
-    id SERIAL PRIMARY KEY,
+    md5(random()::text || clock_timestamp()::text) as id,
     wp.walletprofileid,
     wp.partnerid,
 
