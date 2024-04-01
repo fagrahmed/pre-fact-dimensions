@@ -3,6 +3,7 @@
 {{config(materialized='table') }}
 
 SELECT
+    id SERIAL PRIMARY KEY,
     wp.walletprofileid,
     wp.partnerid,
 
