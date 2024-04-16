@@ -7,8 +7,8 @@ SELECT
     wp.walletprofileid,
     wp.partnerid,
 
-    (wp.createdat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_createdat_utc2,
-    (wp.updatedat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_modifiedat_utc2,
+    (wp.createdat_aibyte_transform::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_createdat_utc2,
+    (wp.updatedat_aibyte_transform::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_modifiedat_utc2,
     (wp.deletedat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_deletedat_utc2,
 
     wp.type as profile_type,
