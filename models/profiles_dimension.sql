@@ -1,28 +1,42 @@
--- models/profiles_dimension.sql
-
-{{config(materialized='table') }}
-
-SELECT
-    md5(random()::text || clock_timestamp()::text) as id,
-    wp.walletprofileid,
-    wp.partnerid,
-
-    (wp.createdat_aibyte_transform::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_createdat_utc2,
-    (wp.updatedat_aibyte_transform::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_modifiedat_utc2,
-    (wp.deletedat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as profile_deletedat_utc2,
-
-    wp.type as profile_type,
-    p.partnernameen as partner_name,
-    activeflag as partner_isactive,
-
-    (p.createdat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as partner_createdat_utc2,
-    (p.lastmodifiedat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as partner_modifiedat_utc2,
-    (p.deletedat::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as partner_deletedat_utc2,
 
 
-    (now()::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as loaddate,
-    null::timestamptz as expdate,
-    true::boolean as currentflag
+{{
+    config(
+        materialized="incremental",
+        unique_key= "hash_column",
+        on_schema_change='append_new_columns',
+        post_hook="
+            DROP TABLE IF EXISTS profiles_stagging;
+            DROP TABLE IF EXISTS profiles_stagging_2;
+            "
+    )
+}}
 
-FROM {{source('axis_core', 'walletprofiles')}} wp
-LEFT JOIN {{source('axis_kyc', 'partner')}} p on wp.partnerid = p.partnerid
+with step_1 as (
+    select stg.*
+    from {{ ref("profiles_stagging") }} stg 
+    left join {{ ref("profiles_stagging_2")}} stg2 on stg.hash_column = stg2.hash_column
+    where stg2.hash_column is null
+
+    union 
+
+    select *
+    from {{ref("profiles_stagging_2")}}
+)
+
+{%if is_incremental() %}
+/* Exclude records that already exist in the destination table */
+, step_2 as(
+    select 
+        new_records.*
+    from step_1 as new_records
+    left join {{this}} as old_records
+        on new_records.id = old_records.id
+    where old_records.id is null
+
+)
+{% endif %}
+
+select *
+from {% if is_incremental() %} step_2 {% else %} step_1 {% endif %}
+order by loaddate

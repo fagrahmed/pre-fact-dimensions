@@ -11,3 +11,9 @@ sources:
     database: dbt
     tables:
       - name: partner
+
+  - name: dbt-dimensions
+    tables:
+      - name: profiles_stagging
+      - name: profiles_stagging_2
+      - name: profiles_dimension

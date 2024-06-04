@@ -1,0 +1,91 @@
+models:
+  - name: profiles_stagging
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: id
+        data_type: text
+        constraints:
+          - type: not_null
+          - type: primary_key
+      - name: currentflag
+        data_type: BOOLEAN
+      - name: expdate
+        data_type: TIMESTAMPTZ
+      - name: hash_column
+        data_type: TEXT
+      - name: loaddate
+        data_type: TIMESTAMP
+      - name: operation
+        data_type: TEXT
+      - name: partner_createdat_utc2
+        data_type: TIMESTAMP
+      - name: partner_deletedat_utc2
+        data_type: TIMESTAMP
+      - name: partner_isactive
+        data_type: BOOLEAN
+      - name: partner_modifiedat_utc2
+        data_type: TIMESTAMP
+      - name: partner_name_ar
+        data_type: TEXT
+      - name: partner_name_en
+        data_type: TEXT
+      - name: partnerid
+        data_type: TEXT
+      - name: profile_createdat_utc2
+        data_type: TIMESTAMP
+      - name: profile_deletedat_utc2
+        data_type: TIMESTAMP
+      - name: profile_modifiedat_utc2
+        data_type: TIMESTAMP
+      - name: profile_type
+        data_type: TEXT
+      - name: walletprofileid
+        data_type: TEXT
+
+  - name: profiles_dimension
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: id
+        data_type: text
+        constraints:
+          - type: not_null
+          - type: primary_key
+      - name: currentflag
+        data_type: BOOLEAN
+      - name: expdate
+        data_type: TIMESTAMPTZ
+      - name: hash_column
+        data_type: TEXT
+      - name: loaddate
+        data_type: TIMESTAMP
+      - name: operation
+        data_type: TEXT
+      - name: partner_createdat_utc2
+        data_type: TIMESTAMP
+      - name: partner_deletedat_utc2
+        data_type: TIMESTAMP
+      - name: partner_isactive
+        data_type: BOOLEAN
+      - name: partner_modifiedat_utc2
+        data_type: TIMESTAMP
+      - name: partner_name_ar
+        data_type: TEXT
+      - name: partner_name_en
+        data_type: TEXT
+      - name: partnerid
+        data_type: TEXT
+      - name: profile_createdat_utc2
+        data_type: TIMESTAMP
+      - name: profile_deletedat_utc2
+        data_type: TIMESTAMP
+      - name: profile_modifiedat_utc2
+        data_type: TIMESTAMP
+      - name: profile_type
+        data_type: TEXT
+      - name: walletprofileid
+        data_type: TEXT
+      
