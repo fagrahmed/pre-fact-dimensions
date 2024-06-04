@@ -84,6 +84,7 @@ with update_old as (
     JOIN {{ source('dbt-dimensions', 'profiles_dimension')}} final
         ON stg.walletprofileid = final.walletprofileid AND stg.profile_type = final.profile_type
     WHERE final.hash_column is not null and final.operation != 'exp'
+        AND stg.loaddate > final.loaddate
 )
 
 SELECT * from update_old
