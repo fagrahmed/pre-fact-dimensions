@@ -15,7 +15,7 @@
 
 
 SELECT
-    md5(random()::text || clock_timestamp()::text) as id,
+    uuid_generate_v7() as id,
     'insert' AS operation,
     true AS currentflag,
     null::timestamptz AS expdate,
