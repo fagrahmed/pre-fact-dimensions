@@ -42,8 +42,8 @@ SELECT
 
     (now()::timestamptz AT TIME ZONE 'UTC' + INTERVAL '2 hours') as loaddate
 
-FROM {{source('axis_core', '_airbyte_raw_walletprofiles')}} wp
-LEFT JOIN {{source('axis_kyc', '_airbyte_raw_partner')}} p on wp.partnerid = p.partnerid
+FROM {{source('axis_core', 'walletprofiles')}} wp
+LEFT JOIN {{source('axis_kyc', 'partner')}} p on wp.partnerid = p.partnerid
 
 {% if is_incremental() and table_exists and stg_table_exists %}
     WHERE wp._airbyte_emitted_at > COALESCE((SELECT max(loaddate::timestamptz) FROM {{ source('dbt-dimensions', 'profiles_dimension') }}), '1900-01-01'::timestamp)
