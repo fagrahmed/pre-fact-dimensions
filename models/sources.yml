@@ -5,12 +5,12 @@ sources:
   - name: axis_core
     database: dbt
     tables: 
-      - name: _airbyte_raw_walletprofiles
+      - name: walletprofiles
 
   - name: axis_kyc
     database: dbt
     tables:
-      - name: _airbyte_raw_partner
+      - name: partner
 
   - name: dbt-dimensions
     tables:
