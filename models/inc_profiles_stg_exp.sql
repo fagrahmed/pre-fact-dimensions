@@ -1,7 +1,10 @@
 {{ config(
     materialized='incremental',
     unique_key= ['walletprofileid', 'profile_type'],
-    on_schema_change='append_new_columns'
+    on_schema_change='append_new_columns',
+    pre_hook=[
+        "{% if target.schema == 'dbt-dimensions' and source('dbt-dimensions', 'inc_profiles_stg_exp') is not none %}TRUNCATE TABLE {{ source('dbt-dimensions', 'inc_profiles_stg_exp) }};{% endif %}"
+    ]
 )}}
 
 {% set table_exists_query = "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'dbt-dimensions' AND table_name = 'inc_profiles_dimension')" %}
@@ -14,7 +17,7 @@ SELECT
     final.id,
     'exp' AS operation,
     false AS currentflag,
-    (now()::timestamptz AT TIME ZONE 'UTC' + INTERVAL '3 hours') AS expdate,
+    (now()::timestamp AT TIME ZONE 'UTC' + INTERVAL '3 hours') AS expdate,
     stg.walletprofileid,
     stg.partnerid,
     stg.hash_column,
