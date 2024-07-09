@@ -14,6 +14,9 @@ sources:
 
   - name: dbt-dimensions
     tables:
-      - name: profiles_stagging
-      - name: profiles_stagging_2
-      - name: profiles_dimension
+      - name: inc_profiles_dimension
+      - name: inc_profiles_stg
+      - name: inc_profiles_stg_new
+      - name: inc_profiles_stg_update
+      - name: inc_profiles_stg_exp
+      
